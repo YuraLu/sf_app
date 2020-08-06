@@ -1,0 +1,41 @@
+<apex:page controller="DishListController">
+    <apex:form >
+        <apex:pageBlock title="Menu" id="menu_items_list">
+            <apex:pageBlockTable value="{! dishes }" var="d">
+                
+ 
+                <apex:column value="{! d.Name__c }">
+                     <apex:facet name="header">
+                        <apex:commandLink action="{! sortByName }"
+                            reRender="menu_items_list">Name
+                        </apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                <apex:column value="{! d.Description__c }">
+                     <apex:facet name="header">
+                        <apex:commandLink action="{! sortByDescription }"
+                            reRender="menu_items_list">Description
+                        </apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                
+                <apex:column value="{! d.Price__c }"/> 
+
+                <apex:column >
+                     <apex:facet name="header">Comment</apex:facet>
+                     <apex:inputField value="{! d.Comment__c }"/>
+                </apex:column>
+                
+                 <apex:column >
+                    <apex:facet name="header">Comment</apex:facet>
+                    <apex:inputField value="{! d.Quantity__c }"/>
+                </apex:column>
+                
+
+                <apex:column value="{! d.Total_amount_calculated__c }"/>
+              
+            </apex:pageBlockTable>
+                 
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

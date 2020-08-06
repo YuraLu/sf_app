@@ -1,0 +1,14 @@
+<apex:page controller="UpcomingOrderController">
+    <apex:form >
+        <apex:pageBlock title="Upcoming Order" id="upcoming_order_list">
+            <apex:pageBlockTable value="{! upcomingOrders}" var="u">
+                <apex:column value="{! u.Name__c }"/>
+                <apex:column value="{! u.Total_order_cost__c}"/>
+            </apex:pageBlockTable>
+
+         <apex:commandButton action="{! makeAnOrder}" value="Make an Order" />
+         <apex:commandButton action="{! orderDetails}" value="Order Details" />
+  
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
