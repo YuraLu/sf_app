@@ -1,4 +1,4 @@
-<apex:page controller="DishListController">
+<apex:page controller="DishListControllerVF">
     <apex:form >
         <apex:pageBlock title="Menu" id="menu_items_list">
             <apex:pageBlockTable value="{! dishes }" var="d">

@@ -1,18 +1,17 @@
 public class UpcomingOrderController{
 
-    public PageReference makeAnOrder() {
-        return null;
-    }
-    
-     public PageReference orderDetails() {
-        return null;
+    @AuraEnabled(cacheable=true)
+    public static Upcoming_Order__c getUpcomingOrder(Id orderId) {
+        return [SELECT Id, Name, Total_order_cost__c FROM Upcoming_Order__c WHERE Id = :orderId];
     }
 
+    @AuraEnabled(cacheable=true)
+    public static List<Upcoming_Order__c> getUpcomingOrders() {
+        return [SELECT Id, Name, Total_order_cost__c FROM Upcoming_Order__c];
+    }
 
-    public List<Upcoming_Order__c> getUpcomingOrders() {
-        
-        List<Upcoming_Order__c> orderlist = Database.query(
-            'SELECT Id, Name__c, Total_order_cost__c FROM Upcoming_Order__c');
-    return orderlist ;
+    @AuraEnabled(cacheable=true)
+    public static List<Upcoming_Order__c> getClosedOrders() {
+         return [SELECT Id, Name, Total_order_cost__c FROM Upcoming_Order__c WHERE Status__c= 'Closed'];
     }
 }

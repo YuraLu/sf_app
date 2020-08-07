@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="Orders" icon-name="utility:money">
+        <div class="slds-m-around_medium">
+            <template if:true={orders}>            
+                <template if:true={isShowed}> 
+                    <div>
+                        <lightning-datatable
+                            key-field="Id" 
+                            data={orders.data}
+                            columns={columns} 
+                            errors={orders.errors}
+                            draft-values={draftValues}> 
+                        </lightning-datatable>
+                    </div>
+                    <p>Total amount of all orders: <b>{totalAmount}</b></p>
+                </template>
+
+                <div class="slds-col">  
+                    <lightning-button label="Orders" onclick={toggleShowOrderList}></lightning-button>
+                </div> 
+
+            </template>
+            <template if:true={orders.error}> 
+                <!-- if some error is appeared do something -->
+                error
+            </template>
+        </div>
+    </lightning-card>
+</template>

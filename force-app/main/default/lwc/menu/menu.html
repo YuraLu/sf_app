@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Menu" icon-name="utility:money">
+        <div>
+            <template if:true={menuItems.data}>          
+                <lightning-datatable
+                    key-field="Id" 
+                    data={menuItems.data}
+                    columns={columns} 
+                    onchange={handleChange}
+                    errors={menuItems.errors}
+                    draft-values={draftValues}
+                    onsave={handleSave}
+                > 
+                </lightning-datatable>
+            </template>
+            <template if:true={menuItems.error}> 
+                <!-- if some error is appeared do something -->
+                error
+            </template>
+        </div>
+    </lightning-card>
+
+    <c-upcoming-order dishlist = {dishes} ></c-upcoming-order>
+    
+</template>

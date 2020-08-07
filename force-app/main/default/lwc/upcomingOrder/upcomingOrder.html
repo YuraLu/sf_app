@@ -1,0 +1,47 @@
+<template>
+    <lightning-card title="Upcoming Order" icon-name="utility:money">
+        <div>
+            <template if:true={upcomingOrder.data}> 
+                <lightning-datatable
+                    key-field="Id" 
+                    data={upcomingOrder.data}
+                    columns={columns} 
+                    errors={upcomingOrder.errors}
+                    draft-values={draftValues}
+                > 
+                </lightning-datatable>
+              
+                <template if:true={isShowed}> 
+                    <div>
+                        <p>Related dishes:</p>
+                        <lightning-datatable
+                            key-field="Id" 
+                            data={dishlist}
+                            columns={dish_columns} 
+                            draft-values={dish_draftValues}> 
+                        </lightning-datatable>
+                    </div>
+                </template>
+
+                <div class="slds-col">  
+                    <lightning-button label="Make an Order"
+                        icon-name="utility:add"
+                        variant="brand" 
+                        onclick={makeOrder}>
+                    </lightning-button>
+
+                    <lightning-button label="Order Details"
+                                        icon-name="utility:delete"
+                                        onclick={toggleShowRelatedList}>
+                    </lightning-button>
+                </div> 
+            </template>
+
+
+            <template if:true={upcomingOrder.error}> 
+                <!-- if some error is appeared do something -->
+                error
+            </template>
+        </div>
+    </lightning-card>
+</template>

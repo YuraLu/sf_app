@@ -1,9 +1,9 @@
-<apex:page controller="OrderController">
+<apex:page controller="OrderControllerVF">
     <apex:form >
      <apex:detail relatedList="false"/>
         <apex:pageBlock title="Orders" id="order_list">
             <apex:pageBlockTable value="{! orders}" var="o">
-                <apex:column value="{! o.Name__c }"/>
+                <apex:column value="{! o.Name }"/>
                 <apex:column value="{! o.Total_order_cost__c}"/>
             </apex:pageBlockTable>
 
