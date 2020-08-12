@@ -1,16 +1,16 @@
 <template>
     <lightning-card title="Upcoming Order" icon-name="utility:money">
         <div>
-            <template if:true={upcomingOrder.data}> 
-                <lightning-datatable
-                    key-field="Id" 
-                    data={upcomingOrder.data}
-                    columns={columns} 
-                    errors={upcomingOrder.errors}
-                    draft-values={draftValues}
-                > 
-                </lightning-datatable>
-              
+            <template if:true={recordId}> 
+                <lightning-record-view-form
+                                record-id={recordId}
+                                object-api-name={upcomingOrderObject}>
+                        <div class="slds-box slds-theme_default">
+                            <lightning-output-field field-name="Name"></lightning-output-field>
+                            <lightning-output-field field-name="Total_order_cost__c"></lightning-output-field>
+                        </div>
+                </lightning-record-view-form>
+
                 <template if:true={isShowed}> 
                     <div>
                         <p>Related dishes:</p>
@@ -38,7 +38,7 @@
             </template>
 
 
-            <template if:true={upcomingOrder.error}> 
+            <template if:true={error}> 
                 <!-- if some error is appeared do something -->
                 error
             </template>

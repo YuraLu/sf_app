@@ -7,14 +7,13 @@ import { updateRecord, createRecord } from 'lightning/uiRecordApi';
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-
-
-
-
+import { CurrentPageReference } from 'lightning/navigation';
+import { registerListener, unregisterAllListeners } from 'c/pubsub';
 
 import COMMENT_FIELD from '@salesforce/schema/Dish__c.Comment__c';
 import QUANTITY_FIELD from '@salesforce/schema/Dish__c.Quantity__c';
 import MENU_ITEM_FIELD from '@salesforce/schema/Dish__c.Menu_Item__c';
+import DISH_UPCOMING_ORDER_FIELD from '@salesforce/schema/Dish__c.Upcoming_Order__c';
 
 
 const MENU_COLUMNS = [
@@ -37,56 +36,60 @@ export default class Menu extends LightningElement {
 
     @wire(getMenuItems) menuItems;
 
-    //@wire(getDishes) menuItems;
+    @wire(getDishes) dishItems;
 
     @api dishes = [];
 
-    connectedCallback(){
-
+/*
+    @wire(CurrentPageReference) pageRef; // Required by pubsub
+    connectedCallback() {
+        // subscribe to bearListUpdate event
+        registerListener('EventName', this.MethodName, this);
     }
-       
+    disconnectedCallback() {
+        // unsubscribe from bearListUpdate event
+        unregisterAllListeners(this);
+    }
+    MethodName(data) {
+        //processing
+        this.recordId = data
+    }
+*/
     handleChange(event){
+        console.log('handleChange block');
         const recordInputs =  event.detail.draftValues.slice().map(draft => {
 
             const obj = {};
             obj[MENU_ITEM_FIELD.fieldApiName] = draft.Id;
             obj[COMMENT_FIELD.fieldApiName] = draft.Comment__c;
             obj[QUANTITY_FIELD.fieldApiName] = draft.Quantity__c;
-    
             const fields = Object.assign({}, obj);     
             
             console.log('fields with obj in handleChange - ' , fields);
             return { fields };
-            });
-
-
+        });
     }
 
     handleSave(event) {
+        console.log('handleSave block');
         const recordInputs =  event.detail.draftValues.slice().map(draft => {
 
         const obj = {};
         obj[MENU_ITEM_FIELD.fieldApiName] = draft.Id;
         obj[COMMENT_FIELD.fieldApiName] = draft.Comment__c;
         obj[QUANTITY_FIELD.fieldApiName] = draft.Quantity__c;
+        obj[DISH_UPCOMING_ORDER_FIELD.fieldApiName] = this.recordId;
 
         const fields = Object.assign({}, obj);     
         return { fields };
         });
-        
+
         let promises = new Set();
         for(let i = 0; i < recordInputs.length; i++){
             let record = recordInputs[i];
-        //    if(JSON.stringify(recordInputs[i].fields.Id).includes('row-')){
-              //  delete record.fields.Id;
-                record.apiName = 'Dish__c';
-                console.log('create', record);
-                promises.add(createRecord(record));
-          //  }
-         //   else{     
-           //     console.log('update', record);         
-             //   promises.add(updateRecord(record));
-           // }
+            record.apiName = 'Dish__c';
+            console.log('create', record);
+            promises.add(createRecord(record));
         }
 
         Promise.all(promises).then(records => {
